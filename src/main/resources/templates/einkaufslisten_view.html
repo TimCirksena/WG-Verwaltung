@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- Verantwortlicher: tcirksen -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/c7cde0642e.js" crossorigin="anonymous"></script>
+    <title>Einkaufsliste</title>
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal" id="modal-example">
+    <div class="modal-background" id="modalbackground"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Neues Item zum Einkauf hinzufügen</p>
+            <button class="delete" aria-label="close" id="close-x-modal"></button>
+        </header>
+        <section class="modal-card-body">
+            <form id="modal-form">
+                <input class="input is-primary" type="number" id="input-field-menge"
+                       placeholder="Wie viel von dem Item?" min="1" required>
+                <input class="input is-primary" type="text" id="input-field-item" placeholder="Welches Item?" required>
+                <input class="input is-primary" type="text" id="input-field-besteller" placeholder="Wer bestellt?" required>
+
+            </form>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button" id="submit-eintrag">Save changes</button>
+            <button class="button" id="close-modal">Cancel</button>
+        </footer>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <a href="http://localhost:8080/menu" class="button backB" ><i class="fa-solid fa-arrow-left mr-1"></i></a>
+        <button class="button" data-target="modal-open" id="modal-open">Einkaufszettel erweitern</button>
+        <h1 class="title has-text-centered">Einkaufsliste</h1>
+        <!-- Modal Trigger -->
+
+        <div class="box is-shadowless" id="box-of-eintrag">
+            {#for einkaufsliste in einkaufslisten}
+                <div id="eintragbox{einkaufsliste.einkaufslistenEintragId}">
+                <div class="columns is-vcentered">
+                <div class="column is-narrow">
+                    {#if einkaufsliste.erledigt}
+                        <input type="checkbox" checked id="checkbox-einkauf{einkaufsliste.einkaufslistenEintragId}" onclick="checkboxValueChange({einkaufsliste.einkaufslistenEintragId})">
+                    {#else}
+                        <input type="checkbox" id="checkbox-einkauf{einkaufsliste.einkaufslistenEintragId}" onclick="checkboxValueChange({einkaufsliste.einkaufslistenEintragId})">
+                    {/if}
+                </div>
+                <div class="column is-narrow">
+                    <p>{einkaufsliste.menge}</p>
+                </div>
+                <div class="column">
+                    <p>{einkaufsliste.item}</p>
+                </div>
+                <div class="column">
+                    <p>{einkaufsliste.besteller}</p>
+                </div>
+                <div class="column is-narrow">
+                <button class="button is-danger" id="delete-eintrag" onclick="deleteEintrag({einkaufsliste.einkaufslistenEintragId})">
+                    Löschen</button>
+                </div>
+                </div>
+                </div>
+            {/for}
+        </div>
+    </div>
+</section>
+<script src="/scripts/einkaufsliste_script.js"></script>
+<script>
+
+</script>
+</body>
+</html>

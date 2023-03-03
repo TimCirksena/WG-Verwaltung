@@ -1,0 +1,40 @@
+/*Quelle für pfeile: https://www.w3schools.com/howto/howto_css_arrows.asp*/
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.cool-link{
+    padding: 0.5rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease-out;
+    border-radius: 5px;
+}
+.cool-link:hover{
+    border-color: blue;
+}
+.inline{
+    display: inline;
+}
+.absolute{
+    position: absolute;
+}
+#kw_input{
+    width:4rem;
+}
+#jahr_input{
+    width: 6rem;
+}

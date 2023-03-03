@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- Verantwortlicher: majaesch -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="styles/index_style.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <h1 class="title margin">Willkommen zu deinem Online WG-Planer</h1>
+        </div>
+
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+
+        <div class="columns">
+
+            <div class="column">
+
+                <div class="container is-max-desktop block">
+                    <div class="notification is-primary block">
+                        Bestehender WG  beitreten
+                    </div>
+                </div>
+
+
+                <div class="block container is-max-desktop">
+                    <form action="j_security_check" method="post">
+                        <div class="field">
+                            <label class="label">WG-Name</label>
+                            <div class="control">
+                                <input type="text" class="input" placeholder="WG-Name" name="j_username"
+                                       id="j_username" required>
+                            </div>
+                            <p class="errorHint">WG-Name existiert nicht</p>
+                        </div>
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <div class="control">
+                                <input type="password" class="input" placeholder="********" name="j_password"
+                                       id="j_password" required>
+                            </div>
+                        </div>
+                        <div class="block">
+                            <button class="button is-primary" type="submit">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="column">
+                <div class="container is-max-desktop block">
+                    <div class="notification is-warning block">
+                        Neue WG registrieren
+                    </div>
+                </div>
+
+                <div class="block container is-max-desktop">
+                    <form>
+                        <div class="field">
+                            <label class="label">WG-Name</label>
+                            <div class="control">
+                                <input type="text" class="input" placeholder="WG-Name" name="reg_wgname" id="reg_wgname"
+                                       required>
+                            </div>
+                            <p id="nameAlreadyUsedHint" class="errorHint">WG-Name bereits vergeben</p>
+                        </div>
+                        <div class="field block">
+                            <label class="label">Password</label>
+                            <div class="control">
+                                <input type="password" class="input" placeholder="********" name="reg_wgpassword"
+                                       id="reg_wgpassword" required>
+                            </div>
+                        </div>
+                        <div class="block">
+                            <button class="button is-warning" type="button" onclick="registerWG()">Register</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="container is-max-desktop block wrapper">
+                    <div class="popup notification is-success block slide-out" id="slider">
+                        WG erfolgreich registriert, du kannst dich jetzt anmelden!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="scripts/index_script.js"></script>
+</body>
+</html>

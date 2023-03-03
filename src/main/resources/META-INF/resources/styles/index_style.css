@@ -1,0 +1,53 @@
+.errorHint{
+    color: red;
+    visibility: hidden;
+}
+
+/*Quellen:http://jsfiddle.net/2vLjU/1/
+https://stackoverflow.com/questions/16989585/css-3-slide-in-from-left-transition
+
+für die animation wenn die registrierung erfolgt!
+*/
+
+.wrapper{
+    overflow: hidden;
+}
+
+#slider {
+    position: relative;
+    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+}
+
+
+.slide-in {
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+
+.slide-out {
+    animation: slide-out 0.5s forwards;
+    -webkit-animation: slide-out 0.5s forwards;
+}
+
+@keyframes slide-in {
+    100% { transform: translateY(0%); }
+}
+
+@-webkit-keyframes slide-in {
+    100% { -webkit-transform: translateY(0%); }
+}
+
+@keyframes slide-out {
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(-100%); }
+}
+
+@-webkit-keyframes slide-out {
+    0% { -webkit-transform: translateY(0%); }
+    100% { -webkit-transform: translateY(-100%); }
+}
+
+.popup{
+    visibility: hidden;
+}

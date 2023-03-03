@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- Verantwortlicher: tcirksen -->
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Menü</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="styles/index_style.css">
+
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="buttons is-right">
+            <button id="logout" class="button is-danger is-outlined " onclick="logout()">Logout</button>
+
+        </div>
+        <div class="columns is-centered block">
+            <h1 class="title margin">Menü - Willkommen {wgname}</h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="columns">
+        <div class="column">
+            <div class="block container is-max-desktop">
+                <div class="box is-shadowless has-text-centered">
+                    <a href="/einkaufsliste">
+                        <button class="button is-large is-responsive">
+                            Einkaufsliste
+                        </button>
+                    </a>
+                </div>
+                <div class="box is-shadowless has-text-centered">
+                    <a href="/woche/aktuell">
+                        <button class="button is-large is-responsive">
+                            Wochenübersicht
+                        </button>
+                    </a>
+                </div>
+                <div class="box is-shadowless has-text-centered">
+                    <a href="/menu/optionen">
+                        <button class="button is-large is-responsive">
+                            Optionen
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="/scripts/optionen_script.js"></script>
+</body>
+</html>

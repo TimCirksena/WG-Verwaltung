@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- Verantwortlicher: tcirksen & majaesch -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="/styles/woche_style.css">
+    <script src="https://kit.fontawesome.com/c7cde0642e.js" crossorigin="anonymous"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js "></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+
+    <script>
+        {#for kalenderEintrag in kalenderEintraegeWoche}
+        console.log('{kalenderEintrag.eintragsArt}');
+        {/for}
+        var calendar
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                headerToolbar: {
+                    start: '',
+                    center: '', // user can switch between the two
+                    end: ''
+                },
+                firstDay: 1,
+                allDaySlot: false,
+                initialDate: '{montag}',
+                eventClick: function (info) {
+                    openEditKalenderEintragModal(info.event.id);
+                },
+                events: [
+                    {#for kalenderEintrag in kalenderEintraegeWoche}
+
+                    {
+                        id: {kalenderEintrag.kalenderEintragId},
+                        title: '{kalenderEintrag.name}',
+                        start: '{kalenderEintrag.datum.toString()}T{kalenderEintrag.startTime}',
+                        end: '{kalenderEintrag.datum.toString()}T{kalenderEintrag.endTime}',
+                        //https://github.com/quarkusio/quarkus/issues/13108
+                        //Switch case erklärung für enums
+                        {#switch kalenderEintrag.eintragsArt}
+                        {#case KOCHEN}
+                        color: '#18570f'
+                        {#case BESUCH}
+                        color: '#cc0b0b'
+                        {#case EINKAUFEN}
+                        color: '#ffe607'
+                        {#case GENERELL}
+                        color: '#002aff'
+                        {/switch}
+                    },
+                    {/for}
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+    <title>Wochenübersicht</title>
+</head>
+<body>
+<div class="container">
+    <nav class="level mt-5">
+        <div class="level-left">
+            <a href="http://localhost:8080/menu" class="button backB level-item"><i class="fa-solid fa-arrow-left mr-1"></i></a>
+        </div>
+        <div class="level-item">
+            <h1 class="title mt-2 has-text-centered">Wochenübersicht</h1>
+        </div>
+    </nav>
+
+    <div class="columns">
+        <div class="column">
+            <form id="weekByYearAndKW">
+                <a class="button is-primary" href="http://localhost:8080/woche/aktuell">aktuelle KW</a>
+                <div class="inline absolute pl-4 is-horizontal">
+                    <label for="kw_input" class="inline subtitle label">KW</label>
+                    <input id="kw_input" type="number" min="1" max="53" class="input" value="{kw}">
+                    <p class="inline subtitle mr-2">{montag.getDayOfMonth()}.{montag.getMonth()}.
+                        - {sonntag.getDayOfMonth()}.{sonntag.getMonth()}.</p>
+                    <div class="is-horizontal inline">
+                        <label for="jahr_input" class="subtitle label inline">Jahr</label>
+                        <input id="jahr_input" type="number" min="1970" max="3000" class="input"
+                               value="{montag.getYear()}">
+                    </div>
+                    <button class="button" type="button" onclick="kwUndJahrAktualisieren()"><i class="fa-solid fa-arrows-rotate mr-1"></i>aktualisieren</button>
+                </div>
+            </form>
+
+        </div>
+        <div class="column is-1">
+            <button style="position: absolute" class="button" data-target="modal-open" id="modal-open"><i class="fa-solid fa-plus mr-1"></i>Eintrag
+                hinzufügen
+            </button>
+        </div>
+        <div class="column is-1">
+
+        </div>
+
+    </div>
+
+
+</div>
+<div class="container">
+    <div id="calendar"></div>
+</div>
+<div class="container">
+
+</div>
+
+<!-- MODAL SECTION -->
+<section class="section">
+    <div class="modal" id="modal-woche-eintrag">
+        <div class="modal-background" id="modalbackground"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title" id="modal-title">Einen Eintrag hinzufügen</p>
+                <button class="delete" aria-label="close" id="close-x-modal"></button>
+            </header>
+            <section class="modal-card-body">
+                <form id="modal-form">
+                    <div class="field">
+                        <label class="label">Art</label>
+                        <div class="control select">
+                            <select class="select" id="dropdown-field">
+                                <option value="KOCHEN">Kochen</option>
+                                <option value="BESUCH">Besuch</option>
+                                <option value="EINKAUFEN">Einkaufen</option>
+                                <option value="GENERELL">Generell</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Bezeichnung</label>
+                        <div class="control">
+                            <input class="input is-primary" required type="text" id="input-field-eintrag-name"
+                                   placeholder="Wie soll der Beitrag heißen?">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Datum</label>
+                        <div class="control">
+                            <input class="input" type="date" id="input-field-eintrag-date" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Start Time</label>
+                        <div class="control">
+                            <input class="input" type="time" id="input-field-eintrag-time-start" required>
+                        </div>
+                    </div>
+                    <div class="is-horizontal inline">
+
+                    </div>
+
+                    <div class="field">
+                        <label class="label">End Time</label>
+                        <div class="control">
+                            <input class="input" type="time" id="input-field-eintrag-time-end" required>
+                        </div>
+                    </div>
+
+                    <div class="field" id="div-display-guest" style="display: none">
+                        <label class="label">Anzahl Gäste</label>
+                        <div class="control">
+                            <input min="0" class="input is-primary" type="number" id="input-field-eintrag-guest"
+                                   value="0">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Beteiligte Mitbewohner</label>
+                        <div class="control">
+                            <input type="text" class="input" placeholder="Tim, Maxi, Abdu"
+                                   id="input-field-eintrag-beteiligte">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Beschreibung</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Gib hier eine Beschreibung ein"
+                                      id="input-field-eintrag-beschreibung"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button" id="submit-eintrag"><i class="fa-solid fa-floppy-disk mr-1"></i>Speichern</button>
+                <a class="button" id="link-zur-einkaufsliste" href="/einkaufsliste" target="_blank"><i class="fa-solid fa-cart-shopping mr-1"></i>Zur Einkaufsliste</a>
+                <button class="button" id="close-modal"><i class="fa-solid fa-ban mr-1"></i>Abbrechen</button>
+                <button id="delete-kalenderEintrag" class="button is-danger is-outlined">Löschen</button>
+            </footer>
+        </div>
+    </div>
+</section>
+<script src="/scripts/woche_script.js"></script>
+</body>
+</html>
